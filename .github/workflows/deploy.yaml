@@ -1,0 +1,11 @@
+name: Deploy CloudFormation templates
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - "iac-release/customer/dev"
+    paths:
+      - "**.yaml"
+      - "**.yml"
