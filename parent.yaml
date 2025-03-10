@@ -4,26 +4,26 @@ Description: Main template with three nested stacks
 Parameters:
   BucketNamePrefix:
     Type: String
-    Default: my-nested-bucket
+    Default: cfn-automation-poc
 
 Resources:
-  NestedStack1:
+  ComputeStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://s3.amazonaws.com/your-bucket/child-template1.yaml
+      TemplateURL: https://s3.amazonaws.com/cfn-automation-github-actions-poc/compute-stack/child-1.yaml
       Parameters:
-        BucketName: !Sub "${BucketNamePrefix}-1"
+        BucketName: !Sub "${BucketNamePrefix}-nested-one"
 
-  NestedStack2:
+  MonitoringStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://s3.amazonaws.com/your-bucket/child-template2.yaml
+      TemplateURL: https://s3.amazonaws.com/cfn-automation-github-actions-poc/monitoring-stack/child-2.yaml
       Parameters:
-        BucketName: !Sub "${BucketNamePrefix}-2"
+        BucketName: !Sub "${BucketNamePrefix}-nested-two"
 
-  NestedStack3:
+  NetworkStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://s3.amazonaws.com/your-bucket/child-template3.yaml
+      TemplateURL: https://s3.amazonaws.com/cfn-automation-github-actions-poc/network-stack/child-3.yaml
       Parameters:
-        BucketName: !Sub "${BucketNamePrefix}-3"
+        BucketName: !Sub "${BucketNamePrefix}-nested-three"

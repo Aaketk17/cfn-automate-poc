@@ -1,0 +1,18 @@
+name: check for cloudformation lint errors
+
+on:
+  pull_request:
+    paths:
+      - "**.yaml"
+      - "**.yml"
+
+jobs:
+  cfn-lint:
+    runs-on: [self-hosted, linux, ARM64, cfn-poc]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run cfn-lint
+        run: |
+          cfn-lint --template-file **/*.yaml **/*.yml
