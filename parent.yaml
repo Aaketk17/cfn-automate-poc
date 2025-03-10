@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Main template with three nested stacks
+
+Parameters:
+  BucketNamePrefix:
+    Type: String
+    Default: my-nested-bucket
+
+Resources:
+  NestedStack1:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/your-bucket/child-template1.yaml
+      Parameters:
+        BucketName: !Sub "${BucketNamePrefix}-1"
+
+  NestedStack2:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/your-bucket/child-template2.yaml
+      Parameters:
+        BucketName: !Sub "${BucketNamePrefix}-2"
+
+  NestedStack3:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/your-bucket/child-template3.yaml
+      Parameters:
+        BucketName: !Sub "${BucketNamePrefix}-3"
