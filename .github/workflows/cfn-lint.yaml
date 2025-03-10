@@ -2,8 +2,6 @@ name: check for cloudformation lint errors before deploy
 
 on:
   push:
-    branches:
-      - "releases/**"
     paths:
       - "**.yaml"
       - "**.yml"
