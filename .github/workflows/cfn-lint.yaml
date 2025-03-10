@@ -15,5 +15,5 @@ jobs:
 
       - name: Run cfn-lint
         run: |
-          cfn-lint -t **/*.yaml
           aws --version
+          cfn-lint -t **/*.yaml
