@@ -8,7 +8,7 @@ Parameters:
 
 Resources:
   ComputeStack:
-    Type: AWS::CloudFormation::Stac
+    Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: https://s3.amazonaws.com/cfn-automation-github-actions-poc/compute-stack/child-1.yaml
       Parameters:
