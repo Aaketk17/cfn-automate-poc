@@ -3,7 +3,7 @@ Description: Third nested template
 
 Parameters:
   BucketName:
-    Type: Strin
+    Type: String
 
 Resources:
   MyS3Bucket:
