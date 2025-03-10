@@ -17,4 +17,4 @@ jobs:
         run: |
           pwd
           ls -al
-          cfn-lint -t **/*.yaml *.yaml
+          find . -path "./.github" -prune -o -type f \( -name '*.yaml' -o -name '*.yml' \) -exec cfn-lint -t {} +
