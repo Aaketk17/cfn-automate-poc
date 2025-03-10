@@ -1,4 +1,4 @@
-name: check for cloudformation lint errors
+name: check for cloudformation lint errors before deploy
 
 on:
   pull_request:
