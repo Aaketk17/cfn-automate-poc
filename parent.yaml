@@ -3,7 +3,7 @@ Description: Main template with three nested stacks
 
 Parameters:
   BucketNamePrefix:
-    Type: String
+    Type: Strin
     Default: cfn-automation-poc
 
 Resources:
