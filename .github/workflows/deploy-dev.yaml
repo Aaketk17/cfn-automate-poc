@@ -52,3 +52,4 @@ jobs:
             --stack-name "iac-customer-${{ secrets.S3_PREFIX }}" \
             --capabilities CAPABILITY_NAMED_IAM
           rm -rf customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-${{ steps.timestamp.outputs.time_stamp }}.yaml
+          ls -al
