@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Main template with three nested stacks
+
+Parameters:
+  BucketNamePrefix:
+    Type: String
+    Default: cfn-automation-poc
+
+Resources:
+  ComputeStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/cfn-automation-github-actions-poc/compute-stack/compute.yaml
+      Parameters:
+        BucketName: !Sub "${BucketNamePrefix}-nested-one-dev"
+
+  MonitoringStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/cfn-automation-github-actions-poc/monitoring-stack/monitoring.yaml
+      Parameters:
+        BucketName: !Sub "${BucketNamePrefix}-nested-two-dev"
+
+  NetworkStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/cfn-automation-github-actions-poc/network-stack/network.yaml
+      Parameters:
+        BucketName: !Sub "${BucketNamePrefix}-nested-three-dev"

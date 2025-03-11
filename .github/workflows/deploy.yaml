@@ -5,7 +5,16 @@ on:
     types:
       - closed
     branches:
-      - "iac-release/*"
+      - "iac-release/customer/dev"
     paths:
       - "**.yaml"
       - "**.yml"
+
+jobs:
+  package-to-s3:
+    runs-on: [self-hosted, linux, ARM64, deploy-poc]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 
