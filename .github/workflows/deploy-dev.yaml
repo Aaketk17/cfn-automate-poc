@@ -1,4 +1,4 @@
-name: Deploy CloudFormation templates
+name: Deploy CloudFormation templates in Dev environment
 
 on:
   pull_request:

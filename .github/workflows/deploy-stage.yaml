@@ -1,4 +1,4 @@
-name: Deploy CloudFormation templates
+name: Deploy CloudFormation templates in Stage environment
 
 on:
   pull_request:
