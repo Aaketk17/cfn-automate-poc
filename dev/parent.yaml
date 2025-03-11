@@ -46,7 +46,7 @@ Resources:
   ParentS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub "${BucketNamePrefix}-nested-three-dev-parent-bucket"
+      BucketName: !Sub "${BucketNamePrefix}-nested-three-dev-parent-bucket-testing"
       Tags:
         - Key: Template
           Value: Parent
