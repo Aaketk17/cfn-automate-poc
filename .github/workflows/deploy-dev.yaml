@@ -1,4 +1,4 @@
-name: Deploy CloudFormation templates in Dev environment
+name: Dev environment - Deploy CloudFormation templates
 
 on:
   pull_request:
@@ -35,7 +35,6 @@ jobs:
 
       - name: Package CloudFormation templates to S3
         run: |
-          TIMESTAMP=$()
           echo "Packaging CloudFormation templates to S3"
           aws cloudformation package \
             --template-file dev/parent.yaml \

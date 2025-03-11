@@ -1,4 +1,4 @@
-name: Deploy CloudFormation templates in Production environment
+name: Prod environment - Deploy CloudFormation templates
 
 on:
   pull_request:
