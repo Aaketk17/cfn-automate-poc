@@ -37,7 +37,7 @@ jobs:
         run: |
           echo "Packaging CloudFormation templates to S3"
           aws cloudformation package \
-            --template-file dev/parent.yaml \
+            --template-file staging/parent.yaml \
             --s3-bucket ${{ secrets.S3_BUCKET }} \
             --s3-prefix ${{ secrets.S3_PREFIX }} \
             --output-template-file customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-${{ steps.timestamp.outputs.time_stamp }}.yaml
