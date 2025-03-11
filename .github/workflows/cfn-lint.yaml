@@ -1,3 +1,4 @@
+# This workflow is used to check for cloudformation lint errors before deploy
 name: check for cloudformation lint errors before deploy
 
 on:
