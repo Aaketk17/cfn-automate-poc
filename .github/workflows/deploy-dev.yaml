@@ -29,20 +29,26 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Set timestamp variable
+        id: timestamp
+        run: echo "time_stamp=$(date +"%Y%m%d%H%M%S")-${GITHUB_SHA}" >> $GITHUB_OUTPUT
+
       - name: Package CloudFormation templates to S3
         run: |
-          TIMESTAMP=$(date +"%Y%m%d%H%M%S")
+          TIMESTAMP=$()
           echo "Packaging CloudFormation templates to S3"
           aws cloudformation package \
             --template-file dev/parent.yaml \
             --s3-bucket ${{ secrets.S3_BUCKET }} \
             --s3-prefix ${{ secrets.S3_PREFIX }} \
-            --output-template-file customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-$TIMESTAMP.yaml
+            --output-template-file customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-${{ steps.timestamp.outputs.time_stamp }}.yaml
+            ls -al
 
       - name: Deploy ${{ matrix.environment }} stack
         run: |
+          ls -al
           aws cloudformation deploy \
-            --template-file customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-$TIMESTAMP.yaml \
+            --template-file customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-${{ steps.timestamp.outputs.time_stamp }}.yaml \
             --stack-name "iac-customer-${{ secrets.S3_PREFIX }}" \
             --capabilities CAPABILITY_NAMED_IAM
-          rm -rf customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-$TIMESTAMP.yaml
+          rm -rf customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-${{ steps.timestamp.outputs.time_stamp }}.yaml
