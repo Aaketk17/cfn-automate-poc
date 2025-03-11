@@ -1,7 +1,8 @@
-name: check for cloudformation lint errors
+# This workflow is used to check for cloudformation lint errors before deploy
+name: check for cloudformation lint errors before deploy
 
 on:
-  pull_request:
+  push:
     paths:
       - "**.yaml"
       - "**.yml"
@@ -15,4 +16,7 @@ jobs:
 
       - name: Run cfn-lint
         run: |
-          cfn-lint --template-file **/*.yaml **/*.yml
+          pwd
+          ls -al
+          # find all yaml files (*.yaml and *.yml) in the repository and run cfn-lint on them except for the ones in the .github directory
+          find . -path "./.github" -prune -o -type f \( -name '*.yaml' -o -name '*.yml' \) -exec cfn-lint -t {} +
