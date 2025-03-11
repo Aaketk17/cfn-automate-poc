@@ -51,4 +51,4 @@ Resources:
         - Key: Template
           Value: Parent
         - Key: Environment
-          Value: Automation-PoC
+          Value: Automation-PoC-Staging

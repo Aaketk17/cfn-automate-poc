@@ -1,0 +1,23 @@
+name: Remove stack environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      Environment:
+        description: "Log level"
+        required: true
+        default: "Dev"
+        type: choice
+        options:
+          - Dev
+          - Stage
+          - Production
+
+jobs:
+  remove-stack:
+    runs-on: [self-hosted, linux, ARM64, cfn-poc]
+    steps:
+      - name: Remove stack
+        run: |
+          echo "Removing stack"
+          echo "Environment: ${{ inputs.Environment }}"
