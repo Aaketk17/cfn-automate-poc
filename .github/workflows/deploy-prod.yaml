@@ -1,0 +1,48 @@
+name: Prod environment - Deploy CloudFormation templates
+
+on:
+  push:
+    branches:
+      - "iac-release/customer/prod"
+    paths:
+      - "prod/**.yaml"
+      - "prod/**.yml"
+      - ".github/workflows/deploy-prod.yaml"
+      - ".github/workflows/cfn-lint.yaml"
+
+jobs:
+  package-to-s3-prod:
+    name: Package CloudFormation templates to S3 and deploy to Prod environment
+    environment: Production
+    runs-on: [self-hosted, linux, ARM64, cfn-poc]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Set timestamp variable
+        id: timestamp
+        run: echo "time_stamp=$(date +"%Y%m%d%H%M%S")-${GITHUB_SHA}" >> $GITHUB_OUTPUT
+
+      - name: Package CloudFormation templates to S3
+        run: |
+          echo "Packaging CloudFormation templates to S3"
+          aws cloudformation package \
+            --template-file prod/parent.yaml \
+            --s3-bucket ${{ secrets.S3_BUCKET }} \
+            --s3-prefix ${{ secrets.S3_PREFIX }} \
+            --output-template-file customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-${{ steps.timestamp.outputs.time_stamp }}.yaml
+
+      - name: Deploy ${{ matrix.environment }} stack
+        run: |
+          aws cloudformation deploy \
+            --template-file customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-${{ steps.timestamp.outputs.time_stamp }}.yaml \
+            --stack-name "iac-customer-${{ secrets.S3_PREFIX }}" \
+            --capabilities CAPABILITY_NAMED_IAM
+          rm -rf customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-${{ steps.timestamp.outputs.time_stamp }}.yaml
