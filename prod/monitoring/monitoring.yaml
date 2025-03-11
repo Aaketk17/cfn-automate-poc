@@ -13,3 +13,5 @@ Resources:
       Tags:
         - Key: Template
           Value: Child-2
+        - Key: Environment
+          Value: Automation-PoC

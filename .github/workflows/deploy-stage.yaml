@@ -5,16 +5,16 @@ on:
     types:
       - closed
     branches:
-      - "iac-release/customer/dev"
+      - "iac-release/customer/stage"
     paths:
-      - "dev/**.yaml"
-      - "dev/**.yml"
+      - "staging/**.yaml"
+      - "staging/**.yml"
 
 jobs:
-  package-and-deploy-dev:
+  package-to-s3-stage:
     if: github.event.pull_request.merged == true
     name: Package CloudFormation templates to S3
-    environment: Dev
+    environment: Stage
     runs-on: [self-hosted, linux, ARM64, cfn-poc]
     steps:
       - name: Checkout repository
@@ -29,18 +29,17 @@ jobs:
 
       - name: Package CloudFormation templates to S3
         run: |
-          TIMESTAMP=$(date +"%Y%m%d%H%M%S")
           echo "Packaging CloudFormation templates to S3"
           aws cloudformation package \
             --template-file dev/parent.yaml \
             --s3-bucket ${{ secrets.S3_BUCKET_NAME }} \
             --s3-prefix ${{ secrets.S3_PREFIX }} \
-            --output-template-file customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-$TIMESTAMP.yaml
+            --output-template-file customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}.yaml
 
       - name: Deploy ${{ matrix.environment }} stack
         run: |
           aws cloudformation deploy \
-            --template-file customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-$TIMESTAMP.yaml \
+            --template-file customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}.yaml \
             --stack-name "iac-customer-${{ secrets.S3_PREFIX }}" \
             --capabilities CAPABILITY_NAMED_IAM
-          rm -rf customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-$TIMESTAMP.yaml
+          rm -rf customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}.yaml
