@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       Environment:
-        description: "Log level"
+        description: "Choose the environment to remove the stack for"
         required: true
         default: "Dev"
         type: choice
