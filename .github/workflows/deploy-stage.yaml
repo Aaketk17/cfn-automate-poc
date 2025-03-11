@@ -32,7 +32,6 @@ jobs:
 
       - name: Package CloudFormation templates to S3
         run: |
-          echo "github.head_ref: ${{ github.head_ref }}"
           echo "Packaging CloudFormation templates to S3"
           aws cloudformation package \
             --template-file staging/parent.yaml \
