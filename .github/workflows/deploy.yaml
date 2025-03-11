@@ -7,14 +7,18 @@ on:
     branches:
       - "iac-release/customer/dev"
     paths:
-      - "**.yaml"
-      - "**.yml"
+      - "dev/**.yaml"
+      - "dev/**.yml"
 
 jobs:
   package-to-s3:
+    name: Package CloudFormation templates to S3
+    environment: Stage
     runs-on: [self-hosted, linux, ARM64, deploy-poc]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: 
+      - name: Package CloudFormation templates to S3
+        run: |
+          echo "Packaging CloudFormation templates to S3"
