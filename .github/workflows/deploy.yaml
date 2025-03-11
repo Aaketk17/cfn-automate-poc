@@ -22,4 +22,4 @@ jobs:
 
       - name: Package CloudFormation templates to S3
         run: |
-          echo "Packaging CloudFormation templates to S3"
+          echo "Packaging CloudFormation templates to S3 dev"
