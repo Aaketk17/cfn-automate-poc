@@ -41,7 +41,7 @@ Resources:
     Properties:
       TemplateURL: network/network.yaml
       Parameters:
-        BucketName: !Sub "${BucketNamePrefix}-nested-three-dev-testing"
+        BucketName: !Sub "${BucketNamePrefix}-nested-three-dev"
 
   ParentS3Bucket:
     Type: AWS::S3::Bucket
