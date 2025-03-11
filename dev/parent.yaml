@@ -4,7 +4,7 @@ Description: Main template with three nested stacks
 Parameters:
   BucketNamePrefix:
     Type: String
-    Default: cfn-automation-po
+    Default: cfn-automation-poc
 
 Resources:
   ComputeStack:
