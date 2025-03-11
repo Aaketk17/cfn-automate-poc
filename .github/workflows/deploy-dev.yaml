@@ -9,6 +9,8 @@ on:
     paths:
       - "dev/**.yaml"
       - "dev/**.yml"
+      - ".github/workflows/deploy-dev.yaml"
+      - ".github/workflows/cfn-lint.yaml"
 
 jobs:
   package-and-deploy-dev:
@@ -33,7 +35,7 @@ jobs:
           echo "Packaging CloudFormation templates to S3"
           aws cloudformation package \
             --template-file dev/parent.yaml \
-            --s3-bucket ${{ secrets.S3_BUCKET_NAME }} \
+            --s3-bucket ${{ secrets.S3_BUCKET }} \
             --s3-prefix ${{ secrets.S3_PREFIX }} \
             --output-template-file customer-cfn-stack-tpl-${{ secrets.S3_PREFIX }}-$TIMESTAMP.yaml
 
