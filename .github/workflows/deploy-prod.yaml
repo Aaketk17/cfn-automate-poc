@@ -15,7 +15,7 @@ on:
 jobs:
   package-to-s3-prod:
     if: github.event.pull_request.merged == true
-    name: Package CloudFormation templates to S3
+    name: Package CloudFormation templates to S3 and deploy to Prod environment
     environment: Production
     runs-on: [self-hosted, linux, ARM64, cfn-poc]
     steps:
