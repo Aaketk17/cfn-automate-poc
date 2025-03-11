@@ -12,4 +12,6 @@ Resources:
       BucketName: !Ref BucketName
       Tags:
         - Key: Template
-          Value: Child-3
+          Value: Child-3-testing
+        - Key: Environment
+          Value: Automation-PoC
