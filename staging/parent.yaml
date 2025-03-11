@@ -9,6 +9,11 @@ Parameters:
 Resources:
   ComputeStack:
     Type: AWS::CloudFormation::Stack
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            - W3002
     Properties:
       TemplateURL: compute/compute.yaml
       Parameters:
@@ -16,6 +21,11 @@ Resources:
 
   MonitoringStack:
     Type: AWS::CloudFormation::Stack
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            - W3002
     Properties:
       TemplateURL: monitoring/monitoring.yaml
       Parameters:
@@ -23,6 +33,11 @@ Resources:
 
   NetworkStack:
     Type: AWS::CloudFormation::Stack
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            - W3002
     Properties:
       TemplateURL: network/network.yaml
       Parameters:
