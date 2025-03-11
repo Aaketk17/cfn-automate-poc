@@ -1,9 +1,7 @@
 name: Dev environment - Deploy CloudFormation templates
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
       - "iac-release/customer/dev"
     paths:
