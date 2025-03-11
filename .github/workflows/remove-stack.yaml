@@ -1,0 +1,64 @@
+name: Remove stack for selected environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      Environment:
+        description: "Choose the environment to remove the stack for"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - stage
+          - prod
+
+jobs:
+  remove-dev-stack:
+    if: inputs.Environment == 'dev'
+    runs-on: [self-hosted, linux, ARM64, cfn-poc]
+    environment: Dev
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Remove stack
+        run: |
+          echo "Removing dev stack"
+          echo "Environment: ${{ inputs.Environment }}"
+          aws cloudformation delete-stack --stack-name iac-customer-${{ inputs.Environment }}
+  remove-stage-stack:
+    if: inputs.Environment == 'stage'
+    runs-on: [self-hosted, linux, ARM64, cfn-poc]
+    environment: Stage
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Remove stack
+        run: |
+          echo "Removing stage stack"
+          echo "Environment: ${{ inputs.Environment }}"
+          aws cloudformation delete-stack --stack-name iac-customer-${{ inputs.Environment }}
+  remove-prod-stack:
+    if: inputs.Environment == 'prod'
+    runs-on: [self-hosted, linux, ARM64, cfn-poc]
+    environment: Production
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Remove stack
+        run: |
+          echo "Removing prod stack"
+          echo "Environment: ${{ inputs.Environment }}"
+          aws cloudformation delete-stack --stack-name iac-customer-${{ inputs.Environment }}
