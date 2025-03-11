@@ -15,7 +15,7 @@ jobs:
     if: github.event.pull_request.merged == true
     name: Package CloudFormation templates to S3
     environment: Stage
-    runs-on: [self-hosted, linux, ARM64, deploy-poc]
+    runs-on: [self-hosted, linux, ARM64, cfn-poc]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
