@@ -9,21 +9,46 @@ Parameters:
 Resources:
   ComputeStack:
     Type: AWS::CloudFormation::Stack
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            - W3002
     Properties:
-      TemplateURL: https://s3.amazonaws.com/cfn-automation-github-actions-poc/dev/compute-stack/compute.yaml
+      TemplateURL: compute/compute.yaml
       Parameters:
         BucketName: !Sub "${BucketNamePrefix}-nested-one-dev"
 
   MonitoringStack:
     Type: AWS::CloudFormation::Stack
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            - W3002
     Properties:
-      TemplateURL: https://s3.amazonaws.com/cfn-automation-github-actions-poc/dev/monitoring-stack/monitoring.yaml
+      TemplateURL: monitoring/monitoring.yaml
       Parameters:
         BucketName: !Sub "${BucketNamePrefix}-nested-two-dev"
 
   NetworkStack:
     Type: AWS::CloudFormation::Stack
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            - W3002
     Properties:
-      TemplateURL: https://s3.amazonaws.com/cfn-automation-github-actions-poc/dev/network-stack/network.yaml
+      TemplateURL: network/network.yaml
       Parameters:
         BucketName: !Sub "${BucketNamePrefix}-nested-three-dev"
+
+  ParentS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${BucketNamePrefix}-nested-three-dev-parent-bucket"
+      Tags:
+        - Key: Template
+          Value: Parent
+        - Key: Environment
+          Value: Automation-PoC

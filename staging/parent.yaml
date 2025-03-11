@@ -4,26 +4,51 @@ Description: Main template with three nested stacks
 Parameters:
   BucketNamePrefix:
     Type: String
-    Default: cfn-automation-poc
+    Default: cfn-automation-poc-staging
 
 Resources:
   ComputeStack:
     Type: AWS::CloudFormation::Stack
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            - W3002
     Properties:
-      TemplateURL: https://s3.amazonaws.com/cfn-automation-github-actions-poc/staging/compute-stack/compute.yaml
+      TemplateURL: compute/compute.yaml
       Parameters:
         BucketName: !Sub "${BucketNamePrefix}-nested-one-staging"
 
   MonitoringStack:
     Type: AWS::CloudFormation::Stack
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            - W3002
     Properties:
-      TemplateURL: https://s3.amazonaws.com/cfn-automation-github-actions-poc/staging/monitoring-stack/monitoring.yaml
+      TemplateURL: monitoring/monitoring.yaml
       Parameters:
         BucketName: !Sub "${BucketNamePrefix}-nested-two-staging"
 
   NetworkStack:
     Type: AWS::CloudFormation::Stack
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            - W3002
     Properties:
-      TemplateURL: https://s3.amazonaws.com/cfn-automation-github-actions-poc/staging/network-stack/network.yaml
+      TemplateURL: network/network.yaml
       Parameters:
         BucketName: !Sub "${BucketNamePrefix}-nested-three-staging"
+
+  ParentS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${BucketNamePrefix}-nested-three-staging-parent-bucket"
+      Tags:
+        - Key: Template
+          Value: Parent
+        - Key: Environment
+          Value: Automation-PoC
